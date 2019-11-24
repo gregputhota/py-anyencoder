@@ -7,4 +7,5 @@ python:
 install:
   - pip install -r test-requirements.txt
 script:
-  - python -m pytest
+    # - python -m pytest
+  - python3.7 -m pytest --cov-report term --cov=anyencoder

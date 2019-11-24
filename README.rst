@@ -2,7 +2,7 @@
 ``anyencoder``
 ==============
 Here's a little library that makes it easy to manage multiple object
-serializers and dynamically dispatch for multiple encoders.
+serializers and perform dynamic dispatch for multiple encoders.
 
 .. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
    :target: https://www.github.com/andrewschenck/py-anyencoder

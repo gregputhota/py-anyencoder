@@ -8,4 +8,4 @@ python:
 install:
   - pip install -r test-requirements.txt
 script:
-  - pytest --cov-report term --cov=anyencoder
+  - python -m pytest --cov-report term --cov=anyencoder

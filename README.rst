@@ -1,9 +1,8 @@
 ==============
 ``anyencoder``
 ==============
-Here's a little library that makes it easy to juggle multiple object
-serializers and dynamically select the serialization scheme to
-employ.
+Here's a little library that makes it easy to manage multiple object
+serializers and dynamically select the serialization scheme to employ.
 
 .. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
    :target: https://www.github.com/andrewschenck/py-anyencoder
@@ -16,9 +15,9 @@ Overview
 Features
 --------
 * Developed on Python 3.7 (and requires 3.7+, sorry not sorry)
-* Tested-ish
-* You can create and as many custom encoders as you want (as long as
-  the number you want is 128 or less.)
+* Tested-ish with ~90% code coverage
+* You can create as many custom encoders as you want (as long as the
+  number you want is 128 or less.)
 * Types are associated with encoders via a registry or direct object
   inspection.
 
@@ -116,8 +115,8 @@ serialized. The method should return the name of the desired encoder:
     >>> with_z_true
     b'\x05\x82\x00\x00\x01\x80\x04\x95\xb8\x00\x00\x00\x00\x00\x00\x00\x8c\x17cloudpickle.cloudpickle\x94\x8c\x19_rehydrate_skeleton_class\x94\x93\x94(\x8c\x08builtins\x94\x8c\x04type\x94\x93\x94\x8c\x07MyClass\x94h\x03\x8c\x06object\x94\x93\x94\x85\x94}\x94\x8c\x07__doc__\x94Ns\x87\x94R\x94}\x94(\x8c\n__module__\x94\x8c\x08__main__\x94\x8c\x01z\x94\x89\x8c\r__slotnames__\x94]\x94utR)\x81\x94}\x94h\x11\x88sb.'
 
-This doesn't have to be a method; an attribute named ``encoder_id`` will
-also work.
+This doesn't have to be a method; an attribute named ``encoder_id``
+will also work.
 
 
 If that sounds like too much work for you, try the ``encode_with``
@@ -170,7 +169,6 @@ Encoders
 
 Builtin Encoders
 ----------------
-
 Several pre-built encoders are included:
 
 * bson
@@ -264,21 +262,23 @@ Considerations for Proxying Encoders
   facilitate easily re-using existing classes in proxy stacks.
 
 * A proxy 'stack' is itself registered as a unique encoder with a
-  unique ``encoder_id`` As with other encoders, a proxy stack's
-  ``encode`` method must return either ``bytes`` or ``str`` data.
-  However, individual 'encoders' in the stack can perform other
-  actions, as long as the stacks's ``encode`` method provides
+  unique ``encoder_id``. Think of the whole stack as a single
+  encoder. As with other encoders, a proxy stack's ``encode``
+  method must return either ``bytes`` or ``str`` data. However,
+  individual encoders in the stack needn't do anything to manipulate
+  data at all, as long as the stacks's ``encode`` method provides
   data and ``decode`` method can do something with that data.
-  This allows you to do other things with indivudal 'encoders'
+
+  This allows you to do other useful things with indivudal encoders
   in the stack, such as implement callbacks, logging, heuristics,
   object inspection, etc...
 
 
 Encoder Plugin Loading
 ----------------------
-Several pre-baked encoder plugins are included, and are loaded
-by the ``load_encoder_plugins`` method. This method is called
-automatically when ``AnyEncoder``'s context manager is invoked:
+Several pre-baked encoder plugins are included, and are loaded by the
+``load_encoder_plugins`` method. This method is called automatically
+when ``AnyEncoder``'s context manager is invoked:
 
 .. code-block:: python
 
@@ -304,8 +304,8 @@ automatically when ``AnyEncoder``'s context manager is invoked:
 
 Note
 ****
-Several of the plugins require third-party libraries in order to be
-loaded and registered.
+Several of the plugins require third-party libraries in order to
+function.
 
 
 ------------
@@ -325,7 +325,7 @@ For text data, the label is a small JSON dictionary.
 
 Warning
 *******
-Because the data is modified to include the label, it must be decoded
+Because the data is modified to include the label, it *must* be decoded
 with ``anyencoder`` in order to extract the label. Serializing an
 object with ``anyencoder`` and then trying to decode the result with
 the concrete serializer is *guaranteed* to fail.

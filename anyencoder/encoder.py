@@ -141,7 +141,10 @@ class Decode(RegistryMixin, ReaderMixIn):
             _encoder_id = label.encoder_id
 
         encoder = self._encoder_from_encoder_id(_encoder_id)
-        decoded_data = encoder.decode(label.raw_data)
+        try:
+            decoded_data = encoder.decode(label.raw_data)
+        except (TypeError, ValueError) as e:
+            raise ValueError('unable to decode data') from e
 
         return decoded_data
 
@@ -204,7 +207,10 @@ class Encode(RegistryMixin, MakerMixIn):
                 f'registry={self._registry!r},'
                 f'maker_factory={self._maker_factory!r})')
 
-    def _find_encoder(self, obj: Any, encoder_id: EncoderID) -> AbstractEncoder:
+    def _find_encoder(
+            self, obj: Any,
+            encoder_id: EncoderID,
+    ) -> AbstractEncoder:
         """
         Inspect an object and select the concrete encoder.
 

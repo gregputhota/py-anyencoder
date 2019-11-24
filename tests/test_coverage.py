@@ -1,3 +1,11 @@
+"""
+Some day, this package will have high-quality unit tests with full
+coverage.
+
+But today is not that day.
+"""
+
+
 import unittest
 
 
@@ -159,11 +167,11 @@ class TestProxy(TestEncodeDecode):
 class TestEncapsulation(TestEncodeDecode):
 
     def test_invalid_maker_data(self):
-        data = ['foo']
-        encoder = self.CustomEncoder()
+        data = [1, 2, 3]
+        custom = self.CustomEncoder()
         enc_tag1 = EncoderTag(
             name='custom-encoder',
-            encoder=encoder,
+            encoder=custom,
         )
         type_tag1 = TypeTag(
             type_=list,
@@ -175,7 +183,19 @@ class TestEncapsulation(TestEncodeDecode):
         with self.assertRaises(TypeError):
             encoder.encode(data)
 
-    def test_invalid_reader_data(self): ...
+    def test_invalid_reader_data(self):
+
+        data = [1, 2, 3]
+        type_tag = TypeTag(
+            type_=list,
+            evaluator=lambda _: 'msgpack',
+
+        )
+        with AnyEncoder() as encoder:
+            encoder.register(type_tag)
+            encoded = encoder.encode(data)
+            with self.assertRaises(ValueError):
+                encoder.decode(encoded, encoder='json')
 
 
 class TestRegistry(unittest.TestCase):

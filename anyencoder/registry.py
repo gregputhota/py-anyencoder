@@ -50,7 +50,9 @@ class EncoderTag:
         if not hasattr(_id, '__int__'):
             raise TypeError(f'id must be an integer: {_id}')
         _id = int(_id)
-        # The label allocates one byte to encoder_id storage
+        # The label allocates one byte to encoder_id storage. In the
+        # docs I claim that you can only use 0 < 128, but in practice
+        # I only enforce that it's < 256.
         if _id > ENCODER_ID_MAX_SIZE:
             raise TypeError(f'id too large: {_id}')
 
@@ -108,7 +110,6 @@ class TypeTag:
 # Annotations
 RegistryTag = Union[EncoderTag, TypeTag]
 RegistryKey = Union[int, str, type]
-#
 
 
 @simple_str

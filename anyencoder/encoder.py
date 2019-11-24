@@ -38,7 +38,6 @@ from anyencoder.util import simple_str
 EncoderID = Union[int, str]
 ReaderFactory = Callable[[AnyStr], LabelReader]
 MakerFactory = Callable[[int], LabelMaker]
-#
 
 
 class MakerMixIn:

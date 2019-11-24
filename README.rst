@@ -2,7 +2,7 @@
 ``anyencoder``
 ==============
 Here's a little library that makes it easy to manage multiple object
-serializers and dynamically select the serialization scheme to employ.
+serializers and dynamically dispatch for multiple encoders.
 
 .. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
    :target: https://www.github.com/andrewschenck/py-anyencoder
@@ -14,10 +14,10 @@ Overview
 
 Features
 --------
-* Developed on Python 3.7 (and requires 3.7+, sorry not sorry)
-* Tested-ish with ~90% code coverage
+* Developed on Python 3.7 (and requires 3.7+, sorry not sorry.)
+* Tested-ish with ~90% code coverage.
 * You can create as many custom encoders as you want (as long as the
-  number you want is 128 or less.)
+  number of encoders you want is 128 or less.)
 * Types are associated with encoders via a registry or direct object
   inspection.
 

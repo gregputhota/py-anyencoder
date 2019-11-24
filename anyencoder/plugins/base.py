@@ -98,7 +98,7 @@ class Proxy:
     """
     This class implements a proxy pattern. It has a constructor which
     stores the next object in the proxy stack and methods to build
-    proxied callables.
+    outer callables.
     """
 
     _proxy_to = None
@@ -108,23 +108,23 @@ class Proxy:
         self._proxy_to = proxy_to
 
     @staticmethod
-    def _proxied_callable(local: Callable, proxied: Callable) -> Callable:
+    def _proxied_callable(inner: Callable, outer: Callable) -> Callable:
         """
         This is a closure which builds a proxy from two methods and
         returns a new callable object, to be used in place of the original
         methods.
 
-        :param local: The 'local' method, which will be wrapped.
-        :param proxied: The 'proxied' method, which will wrap the 'local'
+        :param inner: The 'inner' method, which will be wrapped.
+        :param outer: The 'outer' method, which will wrap the 'local'
           method.
         :return: The new callable object.
         """
-        assert callable(local) and callable(proxied)
+        assert callable(inner) and callable(outer)
 
-        @wraps(local)
-        def inner(value):
-            return proxied(local(value))
-        return inner
+        @wraps(inner)
+        def wrapper(value):
+            return outer(inner(value))
+        return wrapper
 
     def _proxy_method(self, method: Callable, invert: bool = False) -> None:
         """
@@ -139,13 +139,13 @@ class Proxy:
         :param invert: If True, invert the proxy association.
         """
         name = method.__name__
-        local = getattr(self, name)
-        proxied = getattr(self._proxy_to, name)
+        inner = getattr(self, name)
+        outer = getattr(self._proxy_to, name)
 
         if invert is True:
-            local, proxied = proxied, local
+            inner, outer = outer, inner
 
-        new = self._proxied_callable(local, proxied)
+        new = self._proxied_callable(inner, outer)
         setattr(self, name, new)
 
 

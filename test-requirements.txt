@@ -1,9 +1,8 @@
-codecov
-pytest-cov
-multi_key_dict
-bson
-cloudpickle
-dill
-msgpack
-orjson
-ujson
+codecov         >= 2.0.15
+pytest          >= 5.3.0
+pytest-cov      >= 2.8.1
+cloudpickle     >= 0.5.5
+dill            >= 0.3.1.1
+msgpack         >= 0.6.2
+orjson          >= 2.1.3
+ujson           >= 1.35

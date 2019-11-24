@@ -1,15 +1,27 @@
 ==============
 ``anyencoder``
 ==============
-
-.. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
-   :target: https://www.github.com/andrewschenck/py-anyencoder
-
 Here's a little library that makes it easy to juggle multiple object
 serializers and dynamically select the serialization scheme to
 employ.
 
----------------
+.. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
+   :target: https://www.github.com/andrewschenck/py-anyencoder
+
+
+--------
+Overview
+--------
+
+Features
+--------
+* Developed on Python 3.7 (and requires 3.7+, sorry not sorry)
+* Tested-ish
+* You can create and as many custom encoders as you want (as long as
+  the number you want is 128 or less.)
+* Types are associated with encoders via a registry or direct object
+  inspection.
+
 Getting Started
 ---------------
 Encode a list:
@@ -155,6 +167,25 @@ other type:
 Encoders
 --------
 
+
+Builtin Encoders
+----------------
+
+Several pre-built encoders are included:
+
+* bson
+* bzip2
+* cloudpickle
+* dill
+* gzip
+* json
+* msgpack
+* orjson
+* pickle
+* strbyte
+* ujson
+* zlib
+
 Custom Encoders
 ---------------
 Custom encoders can be defined and registered for use. To create
@@ -181,23 +212,25 @@ a custom encoder, subclass ``AbstractEncoder``:
     b'\x05\n\x00\x00\x01\xff\xfeh\x00e\x00l\x00l\x00o\x00 \x00w\x00o\x00r\x00l\x00d\x00'
 
 
-.. note::
-    By now you may have noticed that there's some extra data included
-    in these outputs. More on that later.
+Note
+****
+By now you may have noticed that there's some extra data included
+in these outputs. More on that later.
 
-A few notes about custom encoders:
-  * They must subclass ``AbstractEncoder`` and override
-    ``AbstractEncoder.encode`` and ``AbstractEncoder.decode``.
-  * The ``encode`` method must return a ``str`` or ``bytes`` object.
-  * Encoders must have a unique ``encoder_id``. This should be
-    an integer ``0 <= encoder_id <= 127``. If you find you need more
-    than 128 custom encoders, well, that's just crazy talk.
-  * Encoders must be added to the registry and named by being
-    wrapped in a ``EncoderTag`` object.
+Considerations for Custom Encoders
+**********************************
+* They must subclass ``AbstractEncoder`` and override
+  ``AbstractEncoder.encode`` and ``AbstractEncoder.decode``.
+* The ``encode`` method must return a ``str`` or ``bytes`` object.
+* Encoders must have a unique ``encoder_id``. This should be
+  an integer ``0 <= encoder_id <= 127``. If you find you need more
+  than 128 custom encoders, well, that's just crazy talk.
+* Encoders must be added to the registry and named by being
+  wrapped in a ``EncoderTag`` object.
 
 
-Proxy Encoders
---------------
+Proxying Encoders
+-----------------
 The ``AbstractEncoder`` class has a built-in proxy pattern which can
 be utilized to build a proxy 'stack' of encoders in order to perform
 logging, inspection, and multi-step object manipulation:
@@ -222,26 +255,25 @@ logging, inspection, and multi-step object manipulation:
     b'\x05\x01\x00\x00\x01x\x9c\xabVJT\xb22\xd4QJR\xb22\xd2QJV\xb22\xae\x05\x00-=\x04\x87'
 
 
-.. important::
-    When building a proxy stack, the ``encoder_id`` is only relevant
-    for the bottom (first) encoder in the stack. The proxy stack counts
-    as a single encoder, and needs a unique ``encoder_id``. The
-    ``encoder_id`` can be passed as an argument to facilitate easily
-    re-using existing encoders in proxy stacks.
+Considerations for Proxying Encoders
+************************************
+* When building a proxy stack, the ``encoder_id`` is only relevant for
+  the bottom (first) encoder in the stack. The proxy stack counts as
+  a single encoder, and the first encoder in the stack needs a unique
+  ``encoder_id``. The ``encoder_id`` can be passed as an argument to
+  facilitate easily re-using existing classes in proxy stacks.
 
-.. note::
-    A proxy 'stack' is itself registered as a unique encoder with a
-    unique ``encoder_id`` As with other encoders, a proxy stack's
-    ``encode`` method must return either ``bytes`` or ``str`` data.
-    However, individual 'encoders' in the stack can perform other
-    actions, as long as the stacks's ``encode`` method provides
-    data and ``decode`` method can do something with that data.
-    This allows you to do other things with indivudal 'encoders'
-    in the stack, such as implement callbacks, logging, heuristics,
-    object inspection, etc...
+* A proxy 'stack' is itself registered as a unique encoder with a
+  unique ``encoder_id`` As with other encoders, a proxy stack's
+  ``encode`` method must return either ``bytes`` or ``str`` data.
+  However, individual 'encoders' in the stack can perform other
+  actions, as long as the stacks's ``encode`` method provides
+  data and ``decode`` method can do something with that data.
+  This allows you to do other things with indivudal 'encoders'
+  in the stack, such as implement callbacks, logging, heuristics,
+  object inspection, etc...
 
 
-----------------------
 Encoder Plugin Loading
 ----------------------
 Several pre-baked encoder plugins are included, and are loaded
@@ -270,9 +302,10 @@ automatically when ``AnyEncoder``'s context manager is invoked:
      EncoderTag(name='zlib',encoder=ZlibEncoder(encode_kwargs={},decode_kwargs={},encoder_id=145,proxy_to=None))]
 
 
-.. note::
-    Several of the plugins require third-party libraries in order to be
-    loaded and registered.
+Note
+****
+Several of the plugins require third-party libraries in order to be
+loaded and registered.
 
 
 ------------
@@ -290,19 +323,20 @@ For binary data, the label is 5 bytes in length:
 
 For text data, the label is a small JSON dictionary.
 
-.. warning::
-    Because the data is modified to include the label, it must be
-    decoded with ``anyencoder`` in order to extract the label.
-    Serializing an object with ``anyencoder`` and then trying to
-    decode the result with the concrete serializer is *guaranteed*
-    to fail.
+Warning
+*******
+Because the data is modified to include the label, it must be decoded
+with ``anyencoder`` in order to extract the label. Serializing an
+object with ``anyencoder`` and then trying to decode the result with
+the concrete serializer is *guaranteed* to fail.
 
 
 Encoder IDs
 -----------
 Because ``encoder_id`` is limited to a single byte, it must be a
 value between ``0`` and ``255``. Values ``128`` through ``255`` are
-reserved for the library, and therefore you should choose a value
-where ``0 <= encoder_id <= 127`` when registering custom encoders.
+reserved for the library, and therefore you should choose a ``value``
+where ``0 <= value <= 127`` when choosing the ``encoder_id`` for a
+custom encoder.
 
 

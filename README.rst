@@ -258,12 +258,12 @@ automatically when ``AnyEncoder``'s context manager is invoked:
      EncoderTag(name='dill',encoder=DillEncoder(encode_kwargs={'protocol': 4},    decode_kwargs={},encoder_id=129,proxy_to=None)),
      EncoderTag(name='gzip',encoder=GzipEncoder(encode_kwargs={},decode_kwargs={},    encoder_id=144,proxy_to=None)),
      EncoderTag(name='json',encoder=JSONEncoder(encode_kwargs={},decode_kwargs={},    encoder_id=133,proxy_to=None)),
-    EncoderTag(name='msgpack',encoder=MessagePackEncoder(encode_kwargs={'use_bin_type': True},decode_kwargs={'raw': False},encoder_id=131,proxy_to=None)),
-    EncoderTag(name='orjson',encoder=OrJsonEncoder(encode_kwargs={},decode_kwargs={},encoder_id=134,proxy_to=None)),
-    EncoderTag(name='pickle',encoder=PickleEncoder(encode_kwargs={'protocol': 4},decode_kwargs={},encoder_id=128,proxy_to=None)),
-    EncoderTag(name='strbyte',encoder=StrByteEncoder(encode_kwargs={},decode_kwargs={},encoder_id=132,proxy_to=None)),
-    EncoderTag(name='ujson',encoder=UJsonEncoder(encode_kwargs={},decode_kwargs={},encoder_id=135,proxy_to=None)),
-    EncoderTag(name='zlib',encoder=ZlibEncoder(encode_kwargs={},decode_kwargs={},encoder_id=145,proxy_to=None))]
+     EncoderTag(name='msgpack',encoder=MessagePackEncoder(encode_kwargs={'use_bin_type': True},decode_kwargs={'raw': False},encoder_id=131,proxy_to=None)),
+     EncoderTag(name='orjson',encoder=OrJsonEncoder(encode_kwargs={},decode_kwargs={},encoder_id=134,proxy_to=None)),
+     EncoderTag(name='pickle',encoder=PickleEncoder(encode_kwargs={'protocol': 4},decode_kwargs={},encoder_id=128,proxy_to=None)),
+     EncoderTag(name='strbyte',encoder=StrByteEncoder(encode_kwargs={},decode_kwargs={},encoder_id=132,proxy_to=None)),
+     EncoderTag(name='ujson',encoder=UJsonEncoder(encode_kwargs={},decode_kwargs={},encoder_id=135,proxy_to=None)),
+     EncoderTag(name='zlib',encoder=ZlibEncoder(encode_kwargs={},decode_kwargs={},encoder_id=145,proxy_to=None))]
 
 
 .. note::

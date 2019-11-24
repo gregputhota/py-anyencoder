@@ -1,6 +1,10 @@
 ==============
 ``anyencoder``
 ==============
+
+.. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
+   :target: https://www.github.com/andrewschenck/py-anyencoder
+
 Here's a little library that makes it easy to juggle multiple object
 serializers and dynamically select the serialization scheme to
 employ.

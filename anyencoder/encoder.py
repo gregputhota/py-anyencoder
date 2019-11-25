@@ -5,7 +5,7 @@ Objects provided by this module:
     * :class:`ReaderMixIn`
     * :class:`Decode`
     * :class:`Encode`
-    * :class:`AnyEncoder`
+    * :class:`DynamicEncoder`
     * :class:`SimpleEncoder`
     * :func:`encode_with`
 """
@@ -256,7 +256,7 @@ class Encode(RegistryMixin, MakerMixIn):
 
 
 @simple_str
-class AnyEncoder(MakerMixIn, ReaderMixIn):
+class DynamicEncoder(MakerMixIn, ReaderMixIn):
     """
     This class provides an interface to the underlying encoders.
     Several pre-baked encoder definitions are pre-loaded when this
@@ -269,9 +269,9 @@ class AnyEncoder(MakerMixIn, ReaderMixIn):
       * :func:`EncoderSession.load_encoder_plugins`
 
 
-    >>> from anyencoder import AnyEncoder
+    >>> from anyencoder import DynamicEncoder
     >>> data = [1, 2, 3]
-    >>> with AnyEncoder() as encoder:
+    >>> with DynamicEncoder() as encoder:
     >>>    encoded = encoder.encode(data)
     >>>    decoded = encoder.decode(encoded)
     >>> assert decoded == data
@@ -294,7 +294,7 @@ class AnyEncoder(MakerMixIn, ReaderMixIn):
             registry: Optional[Registry] = None,
     ):
         """
-        Construct a new AnyEncoder object.
+        Construct a new DynamicEncoder object.
 
         :param maker_factory: Inject an alternate maker factory.
         :param reader_factory: Inject an alternate reader factory.
@@ -359,16 +359,16 @@ class AnyEncoder(MakerMixIn, ReaderMixIn):
 @simple_str
 class SimpleEncoder:
     """
-    This is a simple wrapper around :class:`AnyEncoder`. This
+    This is a simple wrapper around :class:`DynamicEncoder`. This
     class is mainly useful for testing purposes; for optimal
-    performance, instantiate :class:`AnyEncoder`.
+    performance, instantiate :class:`DynamicEncoder`.
 
     Public methods:
       * :func:`SimpleEncoder.encode`
       * :func:`SimpleEncoder.decode`
     """
 
-    _encoder = AnyEncoder
+    _encoder = DynamicEncoder
 
     @classmethod
     def encode(cls, obj: Any, encoder: Optional[EncoderID] = None) -> AnyStr:

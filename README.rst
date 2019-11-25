@@ -1,8 +1,8 @@
 ==============
 ``anyencoder``
 ==============
-Here's a little library that makes it easy to manage multiple object
-serializers and perform dynamic dispatch for multiple encoders.
+Here's a little library that makes it easy to perform dynamic dispatch
+for multiple object serializers.
 
 .. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
    :target: https://www.github.com/andrewschenck/py-anyencoder
@@ -43,15 +43,15 @@ Types
 
 Builtin Types
 -------------
-Instantiate ``AnyEncoder`` and register a ``TypeTag`` specifying that
+Instantiate ``DynamicEncoder`` and register a ``TypeTag`` specifying that
 list should be serialized using ``msgpack``:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder, TypeTag
+    >>> from anyencoder import DynamicEncoder, TypeTag
     >>> type_tag = TypeTag(type_=list, evaluator=lambda _: 'msgpack')
     >>> letters = ['a', 'b', 'c']
-    >>> encoder = AnyEncoder()
+    >>> encoder = DynamicEncoder()
     >>> encoder.load_encoder_plugins()
     >>> encoder.register(type_tag)
     >>> encoder.encode(letters)
@@ -64,7 +64,7 @@ the object and choose the encoding scheme dynamically:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder, TypeTag
+    >>> from anyencoder import DynamicEncoder, TypeTag
     >>> def i_care_about_keys(obj):
     ...     """
     ...     If all the keys in the dictionary are strings, I want
@@ -79,7 +79,7 @@ the object and choose the encoding scheme dynamically:
     >>> dict_tag = TypeTag(dict, i_care_about_keys)
     >>> str_dict = dict(a=1, b=2, c=3)
     >>> int_dict = {1: 'a', 2: 'b', 3: 'c'}
-    >>> encoder = AnyEncoder()
+    >>> encoder = DynamicEncoder()
     >>> encoder.load_encoder_plugins()
     >>> encoder.register(dict_tag)
     >>> encoder.encode(str_dict)
@@ -95,7 +95,7 @@ serialized. The method should return the name of the desired encoder:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder
+    >>> from anyencoder import DynamicEncoder
     >>> class MyClass:
     ...     z = False
     ...
@@ -105,7 +105,7 @@ serialized. The method should return the name of the desired encoder:
     ...         else:
     ...             return 'dill'
     >>> my_cls = MyClass()
-    ... with AnyEncoder() as encoder:
+    ... with DynamicEncoder() as encoder:
     ...     with_z_false = encoder.encode(my_cls)
     ...     my_cls.z = True
     ...     with_z_true = encoder.encode(my_cls)
@@ -124,13 +124,13 @@ decorator:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder, encode_with
+    >>> from anyencoder import DynamicEncoder, encode_with
     >>> @encode_with('dill')
     ... class MyClass:
     ...     pass
     ...
     ... my_cls = MyClass()
-    ... with AnyEncoder() as encoder:
+    ... with DynamicEncoder() as encoder:
     ...     encoded = encoder.encode(my_cls)
     ...
     >>> encoded
@@ -143,7 +143,7 @@ other type:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder, TypeTag
+    >>> from anyencoder import DynamicEncoder, TypeTag
     >>> def evaluate_class(obj):
     ...     return 'cloudpickle' if obj.z else 'dill'
     ...
@@ -152,7 +152,7 @@ other type:
     ...
     >>> type_tag = TypeTag(MyClass, evaluate_class)
     >>> my_cls = MyClass()
-    >>> encoder = AnyEncoder()
+    >>> encoder = DynamicEncoder()
     >>> encoder.load_encoder_plugins()
     >>> encoder.register(type_tag)
     >>> encoder.encode(my_cls)
@@ -192,7 +192,7 @@ a custom encoder, subclass ``AbstractEncoder``:
 .. code-block:: python
 
 
-    >>> from anyencoder import AnyEncoder, TypeTag, AbstractEncoder, EncoderTag
+    >>> from anyencoder import DynamicEncoder, TypeTag, AbstractEncoder, EncoderTag
     >>> class StrToUtf16(AbstractEncoder):
     ...     encoder_id = 10
     ...
@@ -235,7 +235,7 @@ logging, inspection, and multi-step object manipulation:
 
 .. code-block:: python
 
-    >>> from anyencoder import AnyEncoder, EncoderTag, TypeTag
+    >>> from anyencoder import DynamicEncoder, EncoderTag, TypeTag
     >>> from anyencoder.plugins.zlib import ZlibEncoder
     >>> from anyencoder.plugins.strbyte import StrByteEncoder
     >>> from anyencoder.plugins.ujson import UJsonEncoder
@@ -245,7 +245,7 @@ logging, inspection, and multi-step object manipulation:
     >>> encoder_tag = EncoderTag('json-zlib', json_zlib)
     >>> type_tag = TypeTag(dict, lambda _: 'json-zlib')
     >>> data = dict(a=1, b=2, c=3)
-    >>> with AnyEncoder() as encoder:
+    >>> with DynamicEncoder() as encoder:
     ...     encoder.register([encoder_tag, type_tag])
     ...     result = encoder.encode(data)
     ...
@@ -278,13 +278,13 @@ Encoder Plugin Loading
 ----------------------
 Several pre-baked encoder plugins are included, and are loaded by the
 ``load_encoder_plugins`` method. This method is called automatically
-when ``AnyEncoder``'s context manager is invoked:
+when ``DynamicEncoder``'s context manager is invoked:
 
 .. code-block:: python
 
     >>> from pprint import pprint
-    >>> from anyencoder import AnyEncoder
-    >>> with AnyEncoder() as encoder:
+    >>> from anyencoder import DynamicEncoder
+    >>> with DynamicEncoder() as encoder:
     ...     types, encoders = encoder.registry.dump()
     ...
     >>> pprint(encoders)

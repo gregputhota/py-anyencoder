@@ -12,7 +12,7 @@ import unittest
 from anyencoder.plugins.base import AbstractEncoder, proxy_attrs
 from anyencoder.plugins.json import JSONEncoder
 from anyencoder.plugins.pickle import PickleEncoder
-from anyencoder.encoder import AnyEncoder, encode, decode
+from anyencoder.encoder import DynamicEncoder, encode, decode
 from anyencoder.registry import EncoderTag, TypeTag
 from anyencoder import encode_with
 
@@ -154,7 +154,7 @@ class TestProxy(TestEncodeDecode):
             evaluator=lambda _: 'custom-encoder',
 
         )
-        encoder = AnyEncoder()
+        encoder = DynamicEncoder()
         encoder.register([enc_tag1, enc_tag2])
         encoder.register(type_tag1)
         data = [1, 2, 3]
@@ -178,7 +178,7 @@ class TestEncapsulation(TestEncodeDecode):
             evaluator=lambda _: 'custom-encoder',
 
         )
-        encoder = AnyEncoder()
+        encoder = DynamicEncoder()
         encoder.register([enc_tag1, type_tag1])
         with self.assertRaises(TypeError):
             encoder.encode(data)
@@ -191,7 +191,7 @@ class TestEncapsulation(TestEncodeDecode):
             evaluator=lambda _: 'msgpack',
 
         )
-        with AnyEncoder() as encoder:
+        with DynamicEncoder() as encoder:
             encoder.register(type_tag)
             encoded = encoder.encode(data)
             with self.assertRaises(ValueError):
@@ -240,7 +240,7 @@ class TestRegistry(unittest.TestCase):
             evaluator=lambda _: 'msgpack',
 
         )
-        encoder = AnyEncoder()
+        encoder = DynamicEncoder()
         with self.assertRaises(ValueError):
             encoder.registry.remove(type_tag1)
 

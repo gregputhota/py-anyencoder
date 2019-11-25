@@ -1,6 +1,5 @@
 """ Configuration constants and miscellany. """
 
-
 import os
 from dataclasses import dataclass
 

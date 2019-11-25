@@ -1,6 +1,6 @@
 from anyencoder import (
     AbstractEncoder,
-    AnyEncoder,
+    DynamicEncoder,
     TypeTag,
     EncoderTag,
     encode_with,
@@ -14,7 +14,7 @@ def usage1():
     # Encode something
     letters = ['a', 'b', 'c']
 
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         encoded = encoder.encode(letters)
         decoded = encoder.decode(encoded)
         assert decoded == letters
@@ -28,7 +28,7 @@ def usage2():
     )
     letters = ['a', 'b', 'c']
 
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         encoder.register(type_tag)
         encoded = encoder.encode(letters)
         decoded = encoder.decode(encoded)
@@ -60,7 +60,7 @@ def usage3():
     str_dict = dict(a=1, b=2, c=3)
     int_dict = {1: 'a', 2: 'b', 3: 'c'}
 
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         encoder.register(list_tag)
         encoder.register(dict_tag)
         print(encoder.encode(small_list))
@@ -84,7 +84,7 @@ def usage4():
                 return 'dill'
 
     my_cls = MyClass()
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         print(encoder.encode(my_cls))
         my_cls.z = True
         print(encoder.encode(my_cls))
@@ -98,7 +98,7 @@ def usage5():
         pass
 
     my_cls = MyClass()
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         encoded = encoder.encode(my_cls)
         print(encoded)
 
@@ -121,7 +121,7 @@ def usage6():
 
     my_cls = MyClass()
 
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         encoder.register(type_tag)
         print(encoder.encode(my_cls))
         my_cls.z = True
@@ -151,7 +151,7 @@ def usage7():
         evaluator=lambda _: 'string-to-utf16',
     )
 
-    encoder = AnyEncoder()
+    encoder = DynamicEncoder()
     encoder.register(encoder_tag)
     encoder.register(type_tag)
     to_16 = encoder.encode('hello world')
@@ -175,7 +175,7 @@ def usage8():
 
     data = dict(a=1, b=2, c=3)
 
-    with AnyEncoder() as encoder:
+    with DynamicEncoder() as encoder:
         # Pro-tip: You can register an iterable of tags
         encoder.register([encoder_tag, type_tag])
         encoder.encode(data)

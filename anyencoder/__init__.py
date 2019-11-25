@@ -11,7 +11,7 @@ encoding schemes. See the README.
 
 
 from anyencoder.encoder import (
-    AnyEncoder,
+    DynamicEncoder,
     SimpleEncoder,
     decode,
     dumps,
@@ -38,8 +38,8 @@ __all__ = [
     'AbstractEncoder',
     'BaseEncoder',
     'ConcreteEncoder',
+    'DynamicEncoder',
     'EncoderTag',
-    'AnyEncoder',
     'SimpleEncoder',
     'TypeTag',
     'decode',

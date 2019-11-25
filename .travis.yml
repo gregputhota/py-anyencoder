@@ -9,3 +9,12 @@ install:
   - pip install -r test-requirements.txt
 script:
   - python -m pytest --cov-report term --cov=anyencoder
+
+deploy:
+  provider: pypi
+  user: "__token__"
+  password:
+    secure: "VuPz41ULbQBnADeC5tl7KBRzH9shV8dhPvBHXf/BMuws/xbPdxqvawKs7wLz8vUa9pGgNhcx1D9zKYIvNzEWlgH0ywsRZTh/KJMLv7q4fPaHOwxzZCZHc09LJLMV6aEsX0Kyc7KlOggSHepGf6KXYjBXfNrdjX6H44p6AjRdBjuDxdKJdGcyzXIsTw/oYeiMOdpAFkATAlwbLcK0g/B9K9GJ8YVLyFBM7vdXOGSX5jM/Q7idcB43nd1aYnNZybECDSWarIcB0QfbLcSj0pLH2a9w19rzDfI5dD5ibytjOboMPxobLon0GH4Xl6hPP1aojnvrDM70ZgjuFQBgYFX87aCwilk5o5sP4LjlgtQ4rw1FgFoHIiVVbz9J0hPEMf1juoVnnngPo36I5e92vhRCtCDEr8/MGSp3seu1ekCzZSiw4Y+mTGVxNIMrzR3S2DMCWohe3Q0AnK2XCdJ6nQPEsZL8HG2DGM1/mLXSDCnmQR7lOluxBc9Y9+Jkhje7GrIN3glenzHjqlsUCa1E87Zhsr+HCJ+H9JhEWoOmcGncMv/hC9K2svTBUycQ94k/8fU+YKT5hNkIU9EQfMyhlHmsv8v2Go1U727HRaysFtELU2tEc+VlEQDJsCRfJ4rtubd0AUUcXhdmcK9kRA3a2hHg1gNM+vwuZ33ZyKL7k9p9J9o="
+  skip_existing: true
+  on:
+      tags: true

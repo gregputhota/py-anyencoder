@@ -22,7 +22,7 @@ class SemanticVersion:
 
     MAJOR: int = 0
     MINOR: int = 0
-    MICRO: int = 1
+    MICRO: int = 2
 
 
 version = SemanticVersion()

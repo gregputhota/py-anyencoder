@@ -18,8 +18,8 @@ Features
 * Tested-ish with ~90% code coverage.
 * You can create as many custom encoders as you want (as long as the
   number of encoders you want is 128 or less.)
-* Types are associated with encoders via a registry or direct object
-  inspection.
+* Types are associated with encoders via a registry or object
+  attribute inspection.
 
 Getting Started
 ---------------
@@ -270,7 +270,7 @@ Considerations for Proxying Encoders
   data and ``decode`` method can do something with that data.
 
   This allows you to do other useful things with indivudal encoders
-  in the stack, such as implement callbacks, logging, heuristics,
+  in the stack, such as implementing callbacks, logging, heuristics,
   object inspection, etc...
 
 

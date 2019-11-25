@@ -86,13 +86,6 @@ class ConcreteEncoder:
     def __str__(self):
         return self.__class__.__name__
 
-    def __repr__(self):
-        return (f'{self.__class__.__name__}('
-                f'encode=f{self.encode!r},'
-                f'decode=f{self.decode!r},'
-                f'encode_kwargs=f{self.encode_kwargs!r},'
-                f'decode_kwargs=f{self.decode_kwargs!r})')
-
 
 class Proxy:
     """

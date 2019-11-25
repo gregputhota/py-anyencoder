@@ -69,11 +69,6 @@ class EncoderTag:
                 self.encoder.__class__ == other.encoder.__class__ and
                 self.id == other.id)
 
-    def __repr__(self):
-        return (f'{self.__class__.__name__}('
-                f'name={self.name!r},'
-                f'encoder={self.encoder!r})')
-
 
 @simple_str
 @dataclass
@@ -100,11 +95,6 @@ class TypeTag:
         """ Enable comparisons with other instances. """
         return (isinstance(other, self.__class__) and
                 self.type_ == other.type_)
-
-    def __repr__(self):
-        return (f'{self.__class__.__name__}('
-                f'type_={self.type_!r},'
-                f'evaluator={self.evaluator!r})')
 
 
 # Annotations

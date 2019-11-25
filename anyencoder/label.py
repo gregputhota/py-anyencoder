@@ -39,15 +39,6 @@ class Label:
     labeled_data: AnyStr
     raw_data: Any
 
-    def __repr__(self):
-        return (f'{self.__class__.__name__}('
-                f'encoder_id={self.encoder_id!r},'
-                f'version_major={self.version_major!r},'
-                f'version_minor={self.version_minor!r},'
-                f'version_micro={self.version_micro!r},'
-                f'labeled_data={self.labeled_data!r},'
-                f'raw_data={self.raw_data!r})')
-
 
 def _label_cls(label_cls: any):
     """

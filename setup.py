@@ -7,7 +7,7 @@ with open('README.rst') as file:
 
 setup(
     name='anyencoder',
-    version='0.0.1',
+    version='0.0.2',
     description='Dynamic dispatch for object serialization',
     long_description=readme,
     python_requires='>=3.7',

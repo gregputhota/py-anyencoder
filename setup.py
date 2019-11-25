@@ -8,7 +8,7 @@ with open('README.rst') as file:
 setup(
     name='anyencoder',
     version='0.0.1',
-    description='Easily manage multiple object serializers',
+    description='Dynamic dispatch for object serializing',
     long_description=readme,
     python_requires='>=3.7',
     install_requires=['multi_key_dict >= 2.0.3'],
@@ -19,9 +19,12 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: Apache License 2.0',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )

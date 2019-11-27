@@ -21,8 +21,16 @@ Features
 * Types are associated with encoders via a registry or object
   attribute inspection.
 
+
 Getting Started
 ---------------
+
+Install the package:
+
+.. code-block::
+
+    pip install anyencoder
+
 Encode a list:
 
 .. code-block:: python

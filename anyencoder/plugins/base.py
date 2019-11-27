@@ -23,17 +23,17 @@ class Encodings:
     """
 
     PICKLE: int = 0x80
-    DILL: int = 0x81
-    CLOUDPICKLE: int = 0x82
+    CLOUDPICKLE: int = 0x81
+    DILL: int = 0x82
     MSGPACK: int = 0x83
-    STRBYTE: int = 0x84
-    JSON: int = 0x85
-    ORJSON: int = 0x86
-    UJSON: int = 0x87
-    BSON: int = 0x88
-    BZIP2: int = 0x89
-    GZIP: int = 0x90
-    ZLIB: int = 0x91
+    JSON: int = 0x84
+    ORJSON: int = 0x85
+    UJSON: int = 0x86
+    BSON: int = 0x87
+    BZIP2: int = 0x88
+    GZIP: int = 0x89
+    ZLIB: int = 0x8A
+    STRBYTE: int = 0x8B
 
 
 encodings = Encodings()

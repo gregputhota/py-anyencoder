@@ -1,16 +1,17 @@
 ==============
 ``anyencoder``
 ==============
+
 Here's a little library that makes it easy to perform dynamic dispatch
 for multiple object serializers.
-
-.. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
-   :target: https://www.github.com/andrewschenck/py-anyencoder
 
 
 --------
 Overview
 --------
+
+.. image:: https://api.travis-ci.org/andrewschenck/py-anyencoder.svg?branch=master
+   :target: https://www.github.com/andrewschenck/py-anyencoder
 
 Features
 --------
@@ -179,18 +180,18 @@ Builtin Encoders
 ----------------
 Several pre-built encoders are included:
 
-* bson
-* bzip2
-* cloudpickle
-* dill
-* gzip
-* json
-* msgpack
-* orjson
-* pickle
-* strbyte
-* ujson
-* zlib
+* ``bson``
+* ``bzip2``
+* ``cloudpickle``
+* ``dill``
+* ``gzip``
+* ``json``
+* ``msgpack``
+* ``orjson``
+* ``pickle``
+* ``strbyte (utf-8)``
+* ``ujson``
+* ``zlib``
 
 Custom Encoders
 ---------------
@@ -239,7 +240,9 @@ Proxying Encoders
 -----------------
 The ``AbstractEncoder`` class has a built-in proxy pattern which can
 be utilized to build a proxy 'stack' of encoders in order to perform
-logging, inspection, and multi-step object manipulation:
+logging, inspection, and multi-step object manipulation.
+
+Proxy ``ujson`` to ``byte`` encoding to ``zlib`` compression:
 
 .. code-block:: python
 

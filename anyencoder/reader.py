@@ -45,10 +45,10 @@ class LabelReader(ABC):
         :param data: The labeled data stream.
         :return: A new LabelReader object.
         """
-        if issubclass(type(data), bytes):
+        if isinstance(data, bytes):
             new = object.__new__(BinaryLabelReader)
 
-        elif issubclass(type(data), str):
+        elif isinstance(data, str):
             new = object.__new__(JSONLabelReader)
 
         else:

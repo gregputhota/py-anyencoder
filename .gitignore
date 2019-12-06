@@ -1,7 +1,13 @@
-venv/
+.DS_Store
+#
 .idea/
+venv/
+.coverage
 __pycache__/
+#
 build/
 dist/
-.DS_Store
-.coverage
+.eggs/
+*.egg-info/
+#
+*.swp

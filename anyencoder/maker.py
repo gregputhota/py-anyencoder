@@ -46,10 +46,10 @@ class LabelMaker:
         :param data: The data being labeled.
         :return: A new LabelMaker object.
         """
-        if issubclass(type(data), bytes):
+        if isinstance(data, bytes):
             new = object.__new__(BinaryLabelMaker)
 
-        elif issubclass(type(data), str):
+        elif isinstance(data, str):
             new = object.__new__(JSONLabelMaker)
 
         else:
